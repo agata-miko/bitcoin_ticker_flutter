@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:io' show Platform;
 import '../data/coin_data.dart';
+import 'dart:io' show Platform;
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -13,11 +13,10 @@ class _PriceScreenState extends State<PriceScreen> {
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
-
     for (String currency in currenciesList) {
       var newItem = DropdownMenuItem(
-        value: currency,
         child: Text(currency),
+        value: currency,
       );
       dropdownItems.add(newItem);
     }
@@ -35,25 +34,36 @@ class _PriceScreenState extends State<PriceScreen> {
 
   CupertinoPicker iOSPicker() {
     List<Text> pickerItems = [];
-
     for (String currency in currenciesList) {
-      pickerItems.add(Text(currency));}
-      return CupertinoPicker(
-        itemExtent: 32.0,
-        onSelectedItemChanged: (selectedIndex) {
-          print(selectedIndex);
-        },
-        children: pickerItems,
-      );
+      pickerItems.add(Text(currency));
     }
 
-  // Widget? getPicker() {
-  //   if (Platform.isIOS) {
-  //     return iOSPicker();
-  //   } else if (Platform.isAndroid) {
-  //     return androidDropdown();
-  //   }
-  // }
+    return CupertinoPicker(
+      backgroundColor: Colors.lightBlue,
+      itemExtent: 32.0,
+      onSelectedItemChanged: (selectedIndex) {
+        print(selectedIndex);
+      },
+      children: pickerItems,
+    );
+  }
+
+  String bitcoinValueInUSD = '?';
+
+  //TODO: Create a method here called getData() to get the coin data from coin_data.dart
+  void getData() async {
+    var coinData = await CoinData().getCoinData();
+    setState(() {
+      bitcoinValueInUSD = coinData.toString();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+    //TODO: Call getData() when the screen loads up.
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +86,12 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  //TODO: Update the Text Widget with the live bitcoin data here.
+                  '1 BTC = $bitcoinValueInUSD USD',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
-                    color: Colors.red,
+                    color: Colors.white,
                   ),
                 ),
               ),

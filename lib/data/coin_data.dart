@@ -1,3 +1,7 @@
+//TODO: Add your imports here.
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 const List<String> currenciesList = [
   'AUD',
   'BRL',
@@ -28,4 +32,15 @@ const List<String> cryptoList = [
   'LTC',
 ];
 
-class CoinData {}
+const coinAPIURL = 'https://api.coingecko.com/api/v3/exchange_rates';
+
+
+class CoinData {
+  //TODO: Create your getCoinData() method here.
+  Future<int> getCoinData() async {
+    var response = await http.get(Uri.parse(coinAPIURL));
+    final responseData = json.decode(response.body);
+    final value = responseData['rates']['usd']['value'];
+    return value.toInt();
+  }
+}
