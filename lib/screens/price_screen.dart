@@ -27,6 +27,7 @@ class _PriceScreenState extends State<PriceScreen> {
       onChanged: (value) {
         setState(() {
           selectedCurrency = value as String;
+          getData();
         });
       },
     );
@@ -41,8 +42,11 @@ class _PriceScreenState extends State<PriceScreen> {
     return CupertinoPicker(
       backgroundColor: Colors.lightBlue,
       itemExtent: 32.0,
-      onSelectedItemChanged: (selectedIndex) {
-        print(selectedIndex);
+      onSelectedItemChanged: (value) {
+        setState(() {
+          selectedCurrency = value as String;
+          getData();
+        });
       },
       children: pickerItems,
     );
@@ -52,7 +56,7 @@ class _PriceScreenState extends State<PriceScreen> {
 
   //TODO: Create a method here called getData() to get the coin data from coin_data.dart
   void getData() async {
-    var coinData = await CoinData().getCoinData();
+    var coinData = await CoinData().getCoinData(selectedCurrency);
     setState(() {
       bitcoinValueInUSD = coinData.toString();
     });
@@ -87,7 +91,7 @@ class _PriceScreenState extends State<PriceScreen> {
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
                   //TODO: Update the Text Widget with the live bitcoin data here.
-                  '1 BTC = $bitcoinValueInUSD USD',
+                  '1 BTC = $bitcoinValueInUSD $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
