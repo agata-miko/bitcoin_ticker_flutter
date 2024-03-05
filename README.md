@@ -1,4 +1,7 @@
 # bitcoin_ticker_flutter
 
-A project from the Udemy course 'The Complete Flutter Development Bootcamp with Dart' by Angela Yu. 
+Complete Flutter App Development Bootcamp with Dart | 29h | dr Angela Yu
+
+Concepts: cupertino, platform specific UI
+
 Price calculator for the different currencies vs BTC, LTH, LTC. 
